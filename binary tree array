@@ -1,27 +1,67 @@
 #include <iostream>
 #include <cmath>
-
 using namespace std;
+void insert(char tree[], int index, int level, char data) {
+    int baseIndex = (1 << (level - 1)) - 1;
+    int currentIndex = baseIndex + index;  
+    if (tree[currentIndex] != '\0') {
+        cout << "Node at index " << index << " already occupied!" << endl;
+        return;
+    }
 
-void Entry(char tree[],int size){
-    
+    tree[currentIndex] = data;
 }
-int main(){
+
+int main() {
     int lvl;
-    cout<<"Enter the level present in the tree: "<<endl;
-    cin>>lvl;
-    int number=pow(lvl,2.0);
-    char tree[number]];
-    cout<<"Enter the root element of the tree: "<<endl;
-    cin>>tree[0];
-    while(true){
-        cout<<"Enter your option\n1.Enter element\n2.Exit\n"<<endl;int i;
-        cin>>i;
-        switch(i){
-            case 1:
-                Entry(tree,number);break;
-            case 2:
-                break;
+    cout << "Enter the level present in the tree: ";
+    cin >> lvl;
+
+    int number = pow(2, lvl) - 1;
+    char tree[number];
+    for (int i = 0; i < number; ++i) {
+        tree[i] = '\0';
+    }
+
+    char rootData;
+    cout << "Enter the root element of the tree: ";
+    cin >> rootData;
+    tree[0] = rootData;
+
+    while (true) {
+        int option;
+        cout << "Enter your option:\n1. Enter element\n2. Exit\n";
+        cin >> option;
+
+        if (option == 1) {
+            char data;
+            int level, index;
+            cout << "Enter the level and index (0-based) to insert the element: ";
+            cin >> level >> index;
+
+            if (level >= lvl || index >= (1 << level)) {
+                cout << "Invalid level or index!" << endl;
+                continue;
+            }
+
+            cout << "Enter the element to insert: ";
+            cin >> data;
+            insert(tree, index, level, data);
+        } else if (option == 2) {
+            break;
+        } else {
+            cout << "Invalid option!" << endl;
         }
     }
+    cout << "Binary Tree:" << endl;
+    for (int i = 0; i < number; ++i) {
+        if (tree[i] != '\0') {
+            cout << tree[i] << " ";
+        } else {
+            cout << "- ";
+        }
+    }
+    cout << endl;
+
+    return 0;
 }
